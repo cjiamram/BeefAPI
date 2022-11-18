@@ -12,16 +12,34 @@ class  tbeefjudge{
 	public $createDate;
 	public $description;
 	public $beefNo;
+	public $userCode;
+	
+	public function userMapping($userCode,$id){
+		$query="UPDATE t_beefjudge SET userCode=:userCode WHERE id=:id";
+		$stmt=$this->conn->prepare($query);
+		$stmt->bindParam(":userCode",$userCode);
+		$stmt->bindParam(":id",$id);
+		$flag=$stmt->execute();
+		return $flag; 	
+	}
+
+	public function setCloseStatus($id){
+		$query="UPDATE t_beefjudge SET status=1 WHERE id=:id";
+		$stmt=$this->conn->prepare($query);
+		$stmt->bindParam(":id",$id);
+		$flag=$stmt->execute();
+		return $flag;
+	}
+
 	public function create(){
-		$query='INSERT INTO t_beefjudge  
+		$query="INSERT INTO t_beefjudge  
         	SET 
 			judgeCode=:judgeCode,
 			beefCode=:beefCode,
 			beefGrade=:beefGrade,
 			createDate=:createDate,
 			description=:description,
-			beefNo=:beefNo
-	';
+			beefNo=:beefNo";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(":judgeCode",$this->judgeCode);
 		$stmt->bindParam(":beefCode",$this->beefCode);
@@ -33,7 +51,7 @@ class  tbeefjudge{
 		return $flag;
 	}
 	public function update(){
-		$query='UPDATE t_beefjudge 
+		$query="UPDATE t_beefjudge 
         	SET 
 			judgeCode=:judgeCode,
 			beefCode=:beefCode,
@@ -41,7 +59,7 @@ class  tbeefjudge{
 			createDate=:createDate,
 			description=:description,
 			beefNo=:beefNo
-		 WHERE id=:id';
+		 WHERE id=:id";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(":judgeCode",$this->judgeCode);
 		$stmt->bindParam(":beefCode",$this->beefCode);

@@ -19,6 +19,9 @@
 		$picture=$cnf->picPath.$folder."/".$picture;
 		$size=$obj->getImageSize($picture);
 
+    //print_r($picture);
+    //print_r($size);
+
 
 		$sizeStyle="width:".$size["width"]."px;height:".$size["height"]."px";
 		$sizeW=$size["width"];
@@ -30,14 +33,7 @@
   		<img src="<?=$picture?>" id="cropbox" style="<?=$sizeStyle?>"  />
  </div>
 
-   <div class="toast">
-    <div class="toast-header">
-      Beef Information
-    </div>
-    <div class="toast-body">
-      <div id='dvContent'></div>
-    </div>
-  </div>
+ 
 </div>
 
  <link rel="stylesheet" href="<?=$rootPath?>/css/jquery.Jcrop.min.css" type="text/css" />
@@ -100,14 +96,6 @@
         if(dataCnt.cnt<10){   
             var url="<?=$rootPath?>/telementtransaction/create.php";
         		square=JSON.stringify(data.area);
-               /*var myToast = $.toast({
-                heading: 'Beef Information',
-                text: 'พื้นที่การ Scan คือ'+square+" พื้นที่เนื้อ "+data.beefArea+" ไขมันแทรก "+data.fatArea,
-                icon: 'info',
-                hideAfter: false
-              });*/
-
-
             var strToast='พื้นที่การ Scan บริเวณ '+square+" พื้นที่เนื้อ "+  (data.beefArea*0.26/100).toFixed(2)  +" (cm^2) พื้นที่ไขมันแทรก "+(data.fatArea*0.26/100).toFixed(2)+ "cm^2";
 
               swal.fire({

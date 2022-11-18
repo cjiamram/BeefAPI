@@ -21,10 +21,10 @@ class  tuser{
 		$query='INSERT INTO t_user  
         	SET 
 			UserName=:UserName,
-			FullName=:FullName,
 			Password=:Password,
+			FullName=:FullName,
 			Picture=:Picture,
-			UserCode=:UserName,
+			UserCode=:UserCode,
 			DepartmentId=:DepartmentId,
 			position=:position,
 			telNo=:telNo,
@@ -33,12 +33,11 @@ class  tuser{
 			facebook=:facebook
 	';
 		$stmt = $this->conn->prepare($query);
-		//print_r($this->Password);
-
 		$stmt->bindParam(":UserName",$this->UserName);
 		$stmt->bindParam(":Password",$this->Password);
 		$stmt->bindParam(":FullName",$this->FullName);
 		$stmt->bindParam(":Picture",$this->Picture);
+		$stmt->bindParam(":UserCode",$this->UserCode);
 		$stmt->bindParam(":DepartmentId",$this->DepartmentId);
 		$stmt->bindParam(":position",$this->position);
 		$stmt->bindParam(":telNo",$this->telNo);
@@ -89,7 +88,7 @@ class  tuser{
 			DepartmentId,
 			position,
 			telNo,
-			email AS email,
+			email,
 			lineNo,
 			facebook
 		FROM t_user WHERE id=:id';
@@ -98,10 +97,10 @@ class  tuser{
 		$stmt->execute();
 		return $stmt;
 	}
-
-	public function readByUserName($userName){
-		$query='SELECT  
-			id,
+	public function getData($keyWord){
+		$key=KeyWord::getKeyWord($this->conn,$this->table_name);
+		$key=($key!="")?$key:"keyWord";
+		$query='SELECT  id,
 			UserName,
 			Password,
 			FullName,
@@ -113,43 +112,7 @@ class  tuser{
 			email,
 			lineNo,
 			facebook
-		FROM t_user WHERE UserName=:userName';
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(':userName',$userName);
-		$stmt->execute();
-		return $stmt;
-	}
-
-	public function getUserExist($userName){
-		$query="SELECT id FROM t_user 
-		WHERE UserName=:userName";
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(":userName",$userName);
-		$stmt->execute();
-		if($stmt->rowCount()>0)
-			return true;
-		else
-			return false;
-
-	}
-
-	public function getData($keyWord){
-	
-		$query='SELECT  A.id,
-			A.UserName,
-			A.Password,
-			A.FullName,
-			A.Picture,
-			B.departmentName AS DepartmentId,
-			A.position,
-			A.telNo,
-			A.email,
-			A.lineNo,
-			A.facebook
-		FROM t_user A LEFT OUTER JOIN t_department B 
-		ON A.DepartmentId=B.deparmentCode
-		WHERE 
-		A.FullName LIKE :keyWord';
+		FROM t_user WHERE '.$key.' LIKE :keyWord';
 		$stmt = $this->conn->prepare($query);
 		$keyWord="%{$keyWord}%";
 		$stmt->bindParam(':keyWord',$keyWord);

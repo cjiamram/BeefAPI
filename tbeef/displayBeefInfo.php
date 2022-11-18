@@ -224,7 +224,8 @@
 
 
   function displayImgCrop(folder,picture){
-      var url="<?=$rootPath?>/tbeef/displayImgCrop.php?foder="+folder+"&picture="+picture;
+      var url="<?=$rootPath?>/tbeef/displayImgCrop.php?folder="+folder+"&picture="+picture;
+      console.log(url);	
       $("#imgCrop").load(url);
   }
 
@@ -289,7 +290,6 @@
 
 	function deleteJudge(){
 		var url="<?=$rootPath?>/tbeefjudge/delete.php?beefCode="+$("#obj_beefCode").val()+"&beefNo="+$("#obj_beefNo").val()+"&userCode="+$("#obj_userCode").val();
-		//console.log(url);
 		var flag=executeGet(url);
 		return flag;
 	} 

@@ -11,6 +11,16 @@ class  tbeef{
 	public $status;
 	public $classifyJudge;
 	public $createDate;
+	public function getFolderExist($beefFolder){
+		$query="SELECT id FROM t_beef WHERE beefFolder=:beefFolder";
+		$stmt=$this->conn->prepare($query);
+		$stmt->bindParam(":beefFolder",$beefFolder);
+		$stmt->execute();
+		if($stmt->rowCount()>0){
+			return true;
+		} return false;
+	}
+
 	public function create(){
 		$query='INSERT INTO t_beef  
         	SET 
